@@ -22,3 +22,5 @@ Attempts to answers 4 questions:
    4. How many days older is Gemma than Sarah?
 
 If any of the questions does not have an answer the answer is omitted.
+
+Limitations: processing is single threaded.
