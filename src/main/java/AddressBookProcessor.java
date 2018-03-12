@@ -5,7 +5,6 @@ import AddressBookRecordProcessing.OlderThan;
 import AddressBookRecordProcessing.OldestPersonFinder;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -16,33 +15,6 @@ public class AddressBookProcessor {
 
 
     public AddressBookProcessor() {}
-
-
-    /**
-     * Intended to separate file BufferedReader setup from its processing in order to allow testing of processing
-     * @param file valid filename expected
-     * @return a BufferedReader of the file
-     */
-    public BufferedReader createBufferedReader(String file) {
-
-        BufferedReader res = null;
-
-        try{
-            res = new BufferedReader(new FileReader(file));
-        } catch (IOException e) {
-            try {
-                if (res!=null)
-                    res.close();
-                res = null;
-            } catch (IOException e1) {
-                res = null;
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
-        }
-
-        return res;
-    }
 
 
     /**
@@ -68,7 +40,6 @@ public class AddressBookProcessor {
         gCounter.getValue().ifPresent(g -> sb.append("1. ")
                                     .append("Female:").append(g.getValue())
                                     .append(" Male:").append(g.getKey()).append("\n"));
-
         oldest.getValue().ifPresent(m-> sb.append("2. ").append(m).append("\n"));
         bthanp.getValue().ifPresent(bp -> sb.append("3. ").append(bp).append("\n"));
         gthans.getValue().ifPresent(gt -> sb.append("4. ").append(gt).append("\n"));
@@ -81,7 +52,7 @@ public class AddressBookProcessor {
      * @param br the bufferedReader from the Address Book
      * @return the formated result string or
      */
-    public Optional<String> processReader(BufferedReader br) {
+    public Optional<String> processReader(final BufferedReader br) {
 
         Optional<String> res = Optional.empty();
 
@@ -109,13 +80,7 @@ public class AddressBookProcessor {
              res = Optional.of(buildResultString(genderCounter, ageCounter, billThanPaul, gemmaThanSarah));
         }
         catch (IOException e) {
-            try {
-                br.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-            e.printStackTrace();
+           e.printStackTrace();
         }
 
         return res;
@@ -124,23 +89,23 @@ public class AddressBookProcessor {
     /**
      * - Opens the file for processing and performs the processing.
      * - Eventually closes the depleted BufferedReader
-     * @param file
+     * @param filePath
      * @return
      */
-    public String process(String file) {
+    public String process(String filePath) {
 
-        String result = "";
-        BufferedReader br = createBufferedReader(file);
+        Optional<BufferedReader> br = AddressBookFileUtility.createBufferedReader(filePath);
 
-        if (br!=null)
-            result = processReader(br).orElse("ERROR");
+        String result = br.flatMap(this::processReader)
+                            .orElse("ERROR");
 
-        try {
-            if (br!=null)
-                br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        br.ifPresent(x -> {
+                try {
+                    x.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
         return result;
     }
