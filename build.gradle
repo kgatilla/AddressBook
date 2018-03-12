@@ -1,0 +1,21 @@
+group 'AddressBook'
+version '0.1'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes  'Main-Class':'MainApp',
+                'Manifest-Version' :'1.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
