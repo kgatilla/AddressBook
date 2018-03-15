@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -16,8 +17,8 @@ public class GenderCounterTest {
     @BeforeClass
     public static void setUpRecords() {
         records = new AddressBookRecord[] {
-                new AddressBookRecord("James", Gender.MALE, LocalDate.of(12,12,12)),
-                new AddressBookRecord("Jane", Gender.FEMALE, LocalDate.of(1,1,1))
+                new AddressBookRecord("James", Gender.MALE, Optional.of(LocalDate.of(12,12,12))),
+                new AddressBookRecord("Jane", Gender.FEMALE, Optional.of(LocalDate.of(1,1,1)))
         };
     }
 

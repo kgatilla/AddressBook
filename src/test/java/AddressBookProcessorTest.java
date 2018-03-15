@@ -45,6 +45,6 @@ public class AddressBookProcessorTest {
     public void processReader() {
         AddressBookProcessor processor = new AddressBookProcessor();
         Optional<String> res = (processor.processReader(br));
-        assertTrue("Result shoud not be Optional.empty", res.isPresent());
+        assertTrue("Result should not be Optional.empty", res.isPresent());
     }
 }

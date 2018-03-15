@@ -27,9 +27,7 @@ public class LineToRecordSplitter {
         try {
             localDate = LocalDate.parse(ddmmyy, formatter);
         }
-        catch (DateTimeParseException ex) {
-               //Ignore issues
-        }
+        catch (DateTimeParseException ex) {/**/}
 
         return Optional.ofNullable(localDate);
     }
@@ -51,7 +49,7 @@ public class LineToRecordSplitter {
         Optional<LocalDate> birthDate = dateFromString(fields[2].trim());
 
         Optional<AddressBookRecord> rec =
-                gender.flatMap(g -> birthDate.map(b -> new AddressBookRecord(name, g, b)));
+                gender.map(g -> new AddressBookRecord(name, g, birthDate));
 
         return rec;
     }

@@ -2,6 +2,7 @@ package AddressBookRecordProcessing;
 
 import AddressBookRecord.AddressBookRecord;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
  *
  * Only returns a value if both persons have been found and first is older than second
  */
-public class OlderThan implements RecordProcessor<OlderThan, Long> {
+public class OlderThan implements AddressBookQuestion<OlderThan, Long> {
 
     private AddressBookRecord first = null;
     private AddressBookRecord second = null;
@@ -65,6 +66,11 @@ public class OlderThan implements RecordProcessor<OlderThan, Long> {
         return getHowManyDaysOlder();
     }
 
+    @Override
+    public Optional<String> getResponse() {
+        return getValue().map(days-> first.getFullName() + " is " + days + " days older than " + second.getFullName());
+    }
+
 
     /**
      * @return how much older the first person is than the second in days or Optional.empty
@@ -72,11 +78,20 @@ public class OlderThan implements RecordProcessor<OlderThan, Long> {
      */
     public Optional<Long> getHowManyDaysOlder() {
         if (first!=null && second != null) {
+            Optional<Long> res = first.getBirthDate()
+                    .flatMap(bd1 -> second.getBirthDate()
+                            .flatMap(bd2 -> daysOlderThan(bd1, bd2)));
 
-            if (first.getBirthDate().isBefore(second.getBirthDate()))
-                return Optional.of(ChronoUnit.DAYS.between(first.getBirthDate(),  second.getBirthDate()));
-
+            return res;
         }
         return Optional.empty();
+    }
+
+    private Optional<Long> daysOlderThan(LocalDate d1, LocalDate d2){
+        if (d1.isBefore(d2))
+            return Optional.of(ChronoUnit.DAYS.between(d1,d2));
+        else
+            return Optional.empty();
+
     }
 }

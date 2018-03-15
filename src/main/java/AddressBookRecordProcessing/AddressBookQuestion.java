@@ -10,7 +10,7 @@ import java.util.Optional;
  * @param <T> the processor class
  * @param <V> the value that should be returned in getValue
  */
-public interface RecordProcessor<T, V> {
+public interface AddressBookQuestion<T, V> {
 
     /**
      * functionality for processing one record
@@ -24,4 +24,6 @@ public interface RecordProcessor<T, V> {
      * @return a value if the processor managed to compute the needed value empty otherwise
      */
     public Optional<V> getValue();
+
+    public Optional<String> getResponse();
 }

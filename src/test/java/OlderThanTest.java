@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static AddressBookRecord.AddressBookRecord.*;
 import static AddressBookRecord.Gender.*;
@@ -18,9 +19,9 @@ public class OlderThanTest {
     @BeforeClass
     public static void setUpRecords() {
         records = new AddressBookRecord[] {
-                new AddressBookRecord("James Lame", MALE, LocalDate.of(13,12,12)),
-                new AddressBookRecord("Jane", FEMALE, LocalDate.of(1,1,1)),
-                new AddressBookRecord("Jim Bloke", MALE, LocalDate.of(14,12,12))
+                new AddressBookRecord("James Lame", MALE, Optional.of(LocalDate.of(13,12,12))),
+                new AddressBookRecord("Jane", FEMALE, Optional.of(LocalDate.of(1,1,1))),
+                new AddressBookRecord("Jim Bloke", MALE, Optional.of(LocalDate.of(14,12,12)))
         };
     }
 

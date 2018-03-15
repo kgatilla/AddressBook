@@ -1,6 +1,7 @@
 package AddressBookRecord;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * Simple representation for each entry in the address book
@@ -8,9 +9,9 @@ import java.time.LocalDate;
 public class AddressBookRecord {
     private final String name;
     private final Gender gender;
-    private final LocalDate birthDate;
+    private final Optional<LocalDate> birthDate;
 
-    public AddressBookRecord(String name, Gender gender, LocalDate birthDate) {
+    public AddressBookRecord(String name, Gender gender, Optional<LocalDate> birthDate) {
         this.name = name;
         this.gender = gender;
         this.birthDate = birthDate;
@@ -24,7 +25,7 @@ public class AddressBookRecord {
         return this.gender;
     }
 
-    public LocalDate getBirthDate() {
+    public Optional<LocalDate> getBirthDate() {
         return this.birthDate;
     }
 }
